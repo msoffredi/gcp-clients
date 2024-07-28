@@ -1,0 +1,6 @@
+{
+    "editor.formatOnSave": true,
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/aws/serverless-application-model/main/samtranslator/schema/schema.json": "file:///Users/marcelo/dev/ai/users/template.yml"
+    }
+}

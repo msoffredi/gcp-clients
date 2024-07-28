@@ -1,0 +1,29 @@
+name: Node.js CI
+
+on:
+    pull_request:
+        branches: [main]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: '18.x'
+
+            # - name: Copying deployment files...
+            #   run: cp -fr .deploy/.npmrc ./
+            - name: Installing Dependencies...
+              run: npm ci
+              # env:
+              #     NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Building...
+              run: npm run build:gcp --if-present
+
+            - name: Running tests...
+              # run: npm run test:coverage
+              run: npm run test

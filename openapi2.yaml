@@ -1,0 +1,137 @@
+swagger: '2.0'
+info:
+    title: Clients API
+    description: Serverless clients REST API
+    version: '0.1'
+schemes:
+    - https
+produces:
+    - application/json
+paths:
+    /healthcheck:
+        get:
+            operationId: healthcheck
+            summary: Healthcheck endpoint
+            x-google-backend:
+                address: https://us-east1-sample-ms-soffredi.cloudfunctions.net/clients-api-marcelo
+            responses:
+                200:
+                    description: Healthcheck success response
+
+    /clients:
+        get:
+            operationId: get-clients
+            summary: Get clients sorted by creation date descending and paginated
+            x-google-backend:
+                address: https://us-east1-sample-ms-soffredi.cloudfunctions.net/clients-api-marcelo
+                deadline: 60.0
+            parameters:
+                - name: lastCreatedAt
+                  in: query
+                  type: string
+                  description: When paginating this is the createdAt value of the last client received
+                - name: limit
+                  in: query
+                  type: string
+                  description: Maximum number of clients to return (defaults to 20)
+            responses:
+                200:
+                    description: GET client success
+                    schema:
+                        type: object
+                422:
+                    description: Error retrieving clients
+                    schema:
+                        type: object
+        post:
+            operationId: post-client
+            summary: POST client endpoint
+            x-google-backend:
+                address: https://us-east1-sample-ms-soffredi.cloudfunctions.net/clients-api-marcelo
+                deadline: 60.0
+            parameters:
+                - name: client
+                  in: body
+                  description: Client to create
+                  schema:
+                      type: object
+                      required:
+                          - name
+                          - email
+                      properties:
+                          name:
+                              type: string
+                          email:
+                              type: string
+            responses:
+                200:
+                    description: POST client success
+                400:
+                    description: Error
+                    schema:
+                        type: object
+    /clients/{clientId}:
+        get:
+            operationId: get-client
+            summary: GET client endpoint
+            x-google-backend:
+                address: https://us-east1-sample-ms-soffredi.cloudfunctions.net/clients-api-marcelo
+                deadline: 60.0
+            parameters:
+                - name: clientId
+                  in: path
+                  required: true
+                  type: string
+            responses:
+                200:
+                    description: GET client success
+                422:
+                    description: Error retrieving one client
+                    schema:
+                        type: object
+        # put:
+        #     operationId: put-client
+        #     summary: PUT client endpoint
+        #     x-google-backend:
+        #         address: https://us-east1-sample-ms-soffredi.cloudfunctions.net/clients-api-marcelo
+        #         deadline: 60.0
+        #     parameters:
+        #         - name: clientId
+        #           in: path
+        #           required: true
+        #           type: string
+        #         - name: client
+        #           in: body
+        #           description: client to update
+        #           schema:
+        #               type: object
+        #               properties:
+        #                   name:
+        #                       type: string
+        #                   email:
+        #                       type: string
+        #     responses:
+        #         200:
+        #             description: PUT client success
+        #         400:
+        #             description: Error
+        #             schema:
+        #                 type: object
+        delete:
+            operationId: delete-client
+            summary: DELETE client endpoint
+            x-google-backend:
+                address: https://us-east1-sample-ms-soffredi.cloudfunctions.net/clients-api-marcelo
+                deadline: 60.0
+            parameters:
+                - name: clientId
+                  in: path
+                  required: true
+                  type: string
+            responses:
+                200:
+                    description: DELETE client success
+                422:
+                    description: Error deleting client
+                    schema:
+                        type: object

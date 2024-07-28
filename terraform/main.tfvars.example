@@ -1,0 +1,14 @@
+project_id = "<your-project-id>"
+deploy_bucket = "<your-gcs-bucket>"
+
+# Consider using your name or nickname
+deploy_prefix = "<your-prefix>"
+
+atlas_public_key = "<atlas_public_key>"
+atlas_private_key = "<atlas_private_key>"
+atlas_org_id = "atlas_org_id"
+db_password = "<db_password>"
+db_user = "<db_user>"
+
+# DB host. Should be like: mongodb+srv://<project_name>.<abc123>.mongodb.net
+db_host = "<db_host>"
