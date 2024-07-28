@@ -35,3 +35,8 @@ resource "google_api_gateway_gateway" "clients_api_gw_gw" {
         google_api_gateway_api_config.clients_api_cfg
     ]
 }
+
+output "clients_api_dev_uri" {
+    description = "The clients API public url you need to use to access the API"
+    value = "https://${google_api_gateway_gateway.clients_api_gw_gw.default_hostname}"
+}

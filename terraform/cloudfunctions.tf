@@ -11,7 +11,6 @@ resource "google_storage_bucket_object" "zip" {
   bucket       = var.deploy_bucket
 
   depends_on = [
-    google_storage_bucket.deploy_bucket,
     data.archive_file.source
   ]
 }
@@ -24,7 +23,6 @@ resource "google_cloudfunctions2_function" "clients_api_fn" {
     location    = var.region 
 
     depends_on  = [
-      google_storage_bucket.deploy_bucket,
       google_storage_bucket_object.zip,
     ]
 
@@ -35,7 +33,7 @@ resource "google_cloudfunctions2_function" "clients_api_fn" {
 
       source {
         storage_source {
-          bucket = google_storage_bucket.deploy_bucket.name
+          bucket = var.deploy_bucket
           object = google_storage_bucket_object.zip.name
         }
       }
@@ -53,4 +51,11 @@ resource "google_cloudfunctions2_function" "clients_api_fn" {
             DB_NAME = "gcp-ms-soffredi-db-${var.deploy_prefix}"
         }
     }
+}
+
+resource "google_cloud_run_service_iam_member" "member" {
+  location = google_cloudfunctions2_function.clients_api_fn.location
+  service  = google_cloudfunctions2_function.clients_api_fn.name
+  role     = "roles/run.invoker"
+  member   = "allUsers"
 }
