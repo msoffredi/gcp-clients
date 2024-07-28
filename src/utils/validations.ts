@@ -21,4 +21,9 @@ export const validateEnvVars = (): void => {
         console.error('DB host env var defined');
         exit(1);
     }
+
+    if (!process.env.TOPIC_NAME) {
+        console.error('Event-bus topic name env var defined');
+        exit(1);
+    }
 };

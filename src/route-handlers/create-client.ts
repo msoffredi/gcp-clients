@@ -3,6 +3,8 @@ import * as yup from 'yup';
 import { Client, ClientRecord } from '../models/client';
 import { RouteHandler } from '../api';
 import { ErrorEntry, RequestValidationError } from '../api-errors';
+import { clientPublisher } from '../events/client-publisher';
+import { EventTypes } from '../events';
 
 const validationSchema = yup.object({
     name: yup.string().min(2).required(),
@@ -63,7 +65,17 @@ export const createClientHandler: RouteHandler = async (req) => {
     const client = Client.build({
         name: validatedBody.name,
     });
-    await client.save();
+
+    try {
+        await client.save();
+
+        await clientPublisher({
+            data: client.toObject(),
+            type: EventTypes.ClientCreated,
+        });
+    } catch (err) {
+        console.error(err);
+    }
 
     return client.toObject();
 };

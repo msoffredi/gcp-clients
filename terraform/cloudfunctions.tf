@@ -19,7 +19,6 @@ resource "google_cloudfunctions2_function" "clients_api_fn" {
     provider    = google
     name        = "clients-api-${var.deploy_prefix}"
     description = "Clients serverless microservice API"
-    # project     = var.project_id
     location    = var.region 
 
     depends_on  = [
@@ -45,10 +44,11 @@ resource "google_cloudfunctions2_function" "clients_api_fn" {
         timeout_seconds    = 100
 
         environment_variables = {
-            DB_USER = var.db_user
+            DB_USER     = var.db_user
             DB_PASSWORD = var.db_password
-            DB_HOST = var.db_host
-            DB_NAME = "gcp-ms-soffredi-db-${var.deploy_prefix}"
+            DB_HOST     = var.db_host
+            DB_NAME     = "gcp-ms-soffredi-db-${var.deploy_prefix}"
+            TOPIC_NAME  = "gcp-ms-${var.deploy_prefix}"
         }
     }
 }

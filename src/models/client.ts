@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 
 export interface ClientRecord {
     name: string;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 interface ClientDoc extends mongoose.Document, ClientRecord {}
