@@ -48,7 +48,7 @@ resource "google_cloudfunctions2_function" "clients_api_fn" {
             DB_PASSWORD = var.db_password
             DB_HOST     = var.db_host
             DB_NAME     = "gcp-ms-soffredi-db-${var.deploy_prefix}"
-            TOPIC_NAME  = "gcp-ms-${var.deploy_prefix}"
+            TOPIC_NAME  = google_pubsub_topic.client-events-topic.name
         }
     }
 }
