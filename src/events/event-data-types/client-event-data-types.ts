@@ -10,10 +10,10 @@ export interface ClientCreatedEventDataType extends BaseEventDataType {
     data: BaseCRUDClientDataType;
 }
 
-export interface ClientUpdatedEventDataType extends BaseEventDataType {
-    type: EventTypes.ClientUpdated;
-    data: BaseCRUDClientDataType;
-}
+// export interface ClientUpdatedEventDataType extends BaseEventDataType {
+//     type: EventTypes.ClientUpdated;
+//     data: BaseCRUDClientDataType;
+// }
 
 export interface ClientDeletedEventDataType extends BaseEventDataType {
     type: EventTypes.ClientDeleted;
