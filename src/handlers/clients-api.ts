@@ -3,22 +3,27 @@ import {
     Request,
     Response,
 } from '@google-cloud/functions-framework';
-import { RequestHelper } from '../utils/request-helper';
-import { BadMethodError, BadRequestError, CustomError } from '../api-errors';
-import { healthcheckHandler } from '../route-handlers/healthcheck';
-import { ResponseBody } from '../api';
 import { validateEnvVars } from '../utils/validations';
-import { MongoDBHelper } from '../utils/mongodb-helper';
 import { createClientHandler } from '../route-handlers/create-client';
 import { getClientsHandler } from '../route-handlers/get-clients';
 import { getOneClientHandler } from '../route-handlers/get-one-client';
 import { delClientHandler } from '../route-handlers/del-client';
+import { startDb } from '../utils/db';
+import {
+    BadMethodError,
+    BadRequestError,
+    CustomError,
+    healthcheckHandler,
+    MongoDBHelper,
+    RequestHelper,
+    ResponseBody,
+} from '@msoffredi/gcp-common';
 
 export const handler: HttpFunction = async (req: Request, res: Response) => {
     console.log('Request received:', req);
 
     validateEnvVars();
-    await MongoDBHelper.startDb();
+    await startDb();
 
     let status = 200;
     let body: ResponseBody<unknown> = {};

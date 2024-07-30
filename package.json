@@ -7,9 +7,8 @@
         "url": "https://github.com/msoffredi/gcp-clients"
     },
     "description": "Clients serverless microservice",
-    "main": "handlers/clients-api.js",
     "scripts": {
-        "build:gcp": "node_modules/typescript/bin/tsc && cp -f package.json ./dist/",
+        "build:gcp": "npm ci && node_modules/typescript/bin/tsc && cp -Rf node_modules dist/",
         "watch": "node_modules/typescript/bin/tsc -w --preserveWatchOutput",
         "test": "jest --runInBand --detectOpenHandles --forceExit --no-watchman --no-cache",
         "test:coverage": "jest --runInBand --coverage --no-cache",
@@ -39,6 +38,7 @@
     "dependencies": {
         "@google-cloud/functions-framework": "^3.4.1",
         "@google-cloud/pubsub": "^4.5.0",
+        "@msoffredi/gcp-common": "^0.2.1",
         "jsonwebtoken": "^9.0.2",
         "lodash": "^4.17.21",
         "mongoose": "^8.5.1",
