@@ -14,8 +14,9 @@ jobs:
               with:
                   node-version: '18.x'
 
-            # - name: Copying deployment files...
-            #   run: cp -fr .deploy/.npmrc ./
+            - name: Copying deployment files...
+              run: cp -fr .deploy/.npmrc ./
+
             - name: Installing Dependencies...
               run: npm ci
               env:
