@@ -1,29 +1,15 @@
+import { ValidationHelper } from '@msoffredi/gcp-common';
 import { exit } from 'process';
 
 export const validateEnvVars = (): void => {
     // Validating environment variables
-    if (!process.env.DB_NAME) {
-        console.error('No database name env var defined');
-        exit(1);
-    }
-
-    if (!process.env.DB_USER) {
-        console.error('DB username env var defined');
-        exit(1);
-    }
-
-    if (!process.env.DB_PASSWORD) {
-        console.error('DB password env var defined');
-        exit(1);
-    }
-
-    if (!process.env.DB_HOST) {
-        console.error('DB host env var defined');
-        exit(1);
-    }
-
-    if (!process.env.TOPIC_NAME) {
-        console.error('Event-bus topic name env var defined');
+    if (
+        !ValidationHelper.checkEnvVar('DB_NAME') ||
+        !ValidationHelper.checkEnvVar('DB_USER') ||
+        !ValidationHelper.checkEnvVar('DB_PASSWORD') ||
+        !ValidationHelper.checkEnvVar('DB_HOST') ||
+        !ValidationHelper.checkEnvVar('TOPIC_NAME')
+    ) {
         exit(1);
     }
 };

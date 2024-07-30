@@ -1,5 +1,5 @@
+import { TestHelper } from '@msoffredi/gcp-common';
 import { handler } from '../../src/handlers/clients-api';
-import { TestHelper } from '../../src/testing';
 
 // This includes all tests for auth.handler()
 it('should return a 200 and a valid status as healthy on GET over healthcheck endpoint', async () => {

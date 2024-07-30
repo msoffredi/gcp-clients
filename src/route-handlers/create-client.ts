@@ -1,10 +1,12 @@
-// import { randomUUID } from 'crypto';
 import * as yup from 'yup';
 import { Client, ClientRecord } from '../models/client';
-import { RouteHandler } from '../api';
-import { ErrorEntry, RequestValidationError } from '../api-errors';
 import { clientPublisher } from '../events/client-publisher';
-import { EventTypes } from '../events';
+import {
+    ErrorEntry,
+    EventTypes,
+    RequestValidationError,
+    RouteHandler,
+} from '@msoffredi/gcp-common';
 
 const validationSchema = yup.object({
     name: yup.string().min(2).required(),

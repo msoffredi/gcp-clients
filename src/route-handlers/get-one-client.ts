@@ -1,5 +1,4 @@
-import { RouteHandler } from '../api';
-import { DatabaseError } from '../api-errors';
+import { DatabaseError, RouteHandler } from '@msoffredi/gcp-common';
 import { Client } from '../models/client';
 
 export const getOneClientHandler: RouteHandler = async (req) => {

@@ -1,6 +1,4 @@
-import { RouteHandler } from '../api';
-import { DatabaseError } from '../api-errors';
-import { EventTypes } from '../events';
+import { DatabaseError, EventTypes, RouteHandler } from '@msoffredi/gcp-common';
 import { clientPublisher } from '../events/client-publisher';
 import { Client } from '../models/client';
 

@@ -1,8 +1,8 @@
 import {
     ClientCreatedEventDataType,
     ClientDeletedEventDataType,
-} from './event-data-types-all';
-import { publisher } from './publisher';
+    publisher,
+} from '@msoffredi/gcp-common';
 
 export const clientPublisher = async (
     eventData: ClientCreatedEventDataType | ClientDeletedEventDataType
