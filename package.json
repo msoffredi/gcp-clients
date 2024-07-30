@@ -8,7 +8,7 @@
     },
     "description": "Clients serverless microservice",
     "scripts": {
-        "build:gcp": "npm ci && node_modules/typescript/bin/tsc && cp -Rf node_modules dist/",
+        "build:gcp": "rm -rf dist && npm ci && node_modules/typescript/bin/tsc && cp -Rf node_modules dist/",
         "watch": "node_modules/typescript/bin/tsc -w --preserveWatchOutput",
         "test": "jest --runInBand --detectOpenHandles --forceExit --no-watchman --no-cache",
         "test:coverage": "jest --runInBand --coverage --no-cache",
