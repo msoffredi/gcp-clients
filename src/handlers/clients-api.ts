@@ -26,7 +26,21 @@ export const handler: HttpFunction = async (req: Request, res: Response) => {
     await startDb();
 
     let status = 200;
+    // const headers: OutgoingHttpHeaders = { 'Access-Control-Allow-Origin': '*' };
     let body: ResponseBody<unknown> = {};
+
+    // Resolving preflights early
+    if (req.method === 'OPTIONS') {
+        res.status(204)
+            .set({
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,PUT,DELETE',
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Max-Age': '3600',
+            })
+            .send();
+        return;
+    }
 
     try {
         if (RequestHelper.getPath(req) === '/healthcheck') {
@@ -73,6 +87,7 @@ export const handler: HttpFunction = async (req: Request, res: Response) => {
     // Leaving connection closed when possible
     await MongoDBHelper.stopDb();
 
+    // res.status(status).set(headers).send(JSON.stringify(body));
     res.status(status)
         .set({ 'Access-Control-Allow-Origin': '*' })
         .send(JSON.stringify(body));

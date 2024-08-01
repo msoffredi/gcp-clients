@@ -70,6 +70,14 @@ paths:
                     description: Error
                     schema:
                         type: object
+        options:
+            operationId: options-clients
+            summary: CORS preflight endpoint
+            x-google-backend:
+                address: https://us-east1-sample-ms-soffredi.cloudfunctions.net/clients-api-marcelo
+            responses:
+                204:
+                    description: CORS preflight success
     /clients/{clientId}:
         get:
             operationId: get-client
@@ -135,3 +143,11 @@ paths:
                     description: Error deleting client
                     schema:
                         type: object
+        # options:
+        #     operationId: options-client-by-id
+        #     summary: CORS preflight endpoint
+        #     x-google-backend:
+        #         address: https://us-east1-sample-ms-soffredi.cloudfunctions.net/clients-api-marcelo
+        #     responses:
+        #         204:
+        #             description: CORS preflight success
