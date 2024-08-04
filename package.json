@@ -38,7 +38,7 @@
     "dependencies": {
         "@google-cloud/functions-framework": "^3.4.1",
         "@google-cloud/pubsub": "^4.5.0",
-        "@msoffredi/gcp-common": "^0.2.1",
+        "@msoffredi/gcp-common": "^0.2.3",
         "jsonwebtoken": "^9.0.2",
         "lodash": "^4.17.21",
         "mongoose": "^8.5.1",

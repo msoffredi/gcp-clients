@@ -7,5 +7,14 @@ import {
 export const clientPublisher = async (
     eventData: ClientCreatedEventDataType | ClientDeletedEventDataType
 ): Promise<void> => {
-    await publisher(process.env.TOPIC_NAME!, eventData);
+    const msgId = await publisher(process.env.TOPIC_NAME!, eventData);
+
+    console.log(
+        'Event published:',
+        JSON.stringify({
+            msgId,
+            topicName: process.env.TOPIC_NAME!,
+            eventData,
+        })
+    );
 };

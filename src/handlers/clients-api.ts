@@ -20,16 +20,8 @@ import {
 } from '@msoffredi/gcp-common';
 
 export const handler: HttpFunction = async (req: Request, res: Response) => {
-    console.log('Request received:', req);
+    console.log('Request received:', RequestHelper.logReq(req));
 
-    validateEnvVars();
-    await startDb();
-
-    let status = 200;
-    // const headers: OutgoingHttpHeaders = { 'Access-Control-Allow-Origin': '*' };
-    let body: ResponseBody<unknown> = {};
-
-    // Resolving preflights early
     if (req.method === 'OPTIONS') {
         res.status(204)
             .set({
@@ -42,6 +34,13 @@ export const handler: HttpFunction = async (req: Request, res: Response) => {
         return;
     }
 
+    validateEnvVars();
+    await startDb();
+
+    let status = 200;
+    let body: ResponseBody<unknown> = {};
+
+    // Resolving preflights early
     try {
         if (RequestHelper.getPath(req) === '/healthcheck') {
             if (req.method === 'GET') {

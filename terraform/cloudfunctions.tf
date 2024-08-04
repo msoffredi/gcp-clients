@@ -40,7 +40,7 @@ resource "google_cloudfunctions2_function" "clients_api_fn" {
 
     service_config {
         max_instance_count = 1
-        available_memory   = "128Mi"
+        available_memory   = "256Mi"
         timeout_seconds    = 100
 
         environment_variables = {
