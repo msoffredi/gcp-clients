@@ -1,18 +1,15 @@
 data "archive_file" "source" {
-  type        = "zip"
-  source_dir  = "${path.module}/../dist"
-  output_path = "${path.module}/tmp/function.zip"
+    type        = "zip"
+    source_dir  = "${path.module}/../dist"
+    output_path = "${path.module}/tmp/function.zip"
 }
 
 resource "google_storage_bucket_object" "zip" {
-  source       = data.archive_file.source.output_path
-  content_type = "application/zip"
-  name         = "src-${data.archive_file.source.output_md5}.zip"
-  bucket       = var.deploy_bucket
-
-  depends_on = [
-    data.archive_file.source
-  ]
+    source       = data.archive_file.source.output_path
+    content_type = "application/zip"
+    name         = "clients/api-src-${data.archive_file.source.output_md5}.zip"
+    # bucket       = data.google_storage_bucket.deploy_bucket.name
+    bucket       = google_storage_bucket.gcf_bucket.name
 }
 
 resource "google_cloudfunctions2_function" "clients_api_fn" {
@@ -21,21 +18,19 @@ resource "google_cloudfunctions2_function" "clients_api_fn" {
     description = "Clients serverless microservice API"
     location    = var.region 
 
-    depends_on  = [
-      google_storage_bucket_object.zip,
-    ]
-
     build_config {
-      runtime           = "nodejs18"
-      entry_point       = "handler" # Set the entry point
-      docker_repository = "projects/sample-ms-soffredi/locations/us-east1/repositories/gcf-artifacts"
+        runtime           = "nodejs18"
+        entry_point       = "handler" # Set the entry point
+        # docker_repository = "projects/sample-ms-soffredi/locations/us-east1/repositories/gcf-artifacts"        
+        # docker_repository = "projects/${var.project_id}/locations/${var.region}/repositories/gcf-artifacts"
 
-      source {
-        storage_source {
-          bucket = var.deploy_bucket
-          object = google_storage_bucket_object.zip.name
+        source {
+            storage_source {
+                # bucket = data.google_storage_bucket.deploy_bucket.name
+                bucket = google_storage_bucket.gcf_bucket.name
+                object = google_storage_bucket_object.zip.name
+            }
         }
-      }
     }
 
     service_config {
@@ -44,18 +39,18 @@ resource "google_cloudfunctions2_function" "clients_api_fn" {
         timeout_seconds    = 100
 
         environment_variables = {
-            DB_USER     = var.db_user
-            DB_PASSWORD = var.db_password
-            DB_HOST     = var.db_host
-            DB_NAME     = "gcp-ms-soffredi-db-${var.deploy_prefix}"
-            TOPIC_NAME  = google_pubsub_topic.client-events-topic.name
+            DB_USER     = "${var.db_user}"
+            DB_PASSWORD = "${var.db_password}"
+            DB_HOST     = "${var.db_host}"
+            DB_NAME     = "${var.db_instance_name}"
+            TOPIC_NAME  = "${google_pubsub_topic.client-events-topic.name}"
         }
     }
 }
 
 resource "google_cloud_run_service_iam_member" "member" {
-  location = google_cloudfunctions2_function.clients_api_fn.location
-  service  = google_cloudfunctions2_function.clients_api_fn.name
-  role     = "roles/run.invoker"
-  member   = "allUsers"
+    location = google_cloudfunctions2_function.clients_api_fn.location
+    service  = google_cloudfunctions2_function.clients_api_fn.name
+    role     = "roles/run.invoker"
+    member   = "allUsers"
 }
